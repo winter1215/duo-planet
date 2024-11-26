@@ -1,0 +1,68 @@
+# 公共配置文件
+spring:
+  application:
+    name: dignitary
+  # 默认 dev 环境
+  profiles:
+    active: dev
+  # 支持 swagger3
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  # 数据库配置
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/dignitary
+    username: root
+    password: winter
+  # 文件上传
+  servlet:
+    multipart:
+      # 大小限制
+      max-file-size: 10MB
+server:
+  address: 0.0.0.0
+  port: 8080
+  servlet:
+    context-path: /api
+
+mybatis-plus:
+  configuration:
+    # 默认为 true 这里数据库也是用的驼峰 所以关闭
+    map-underscore-to-camel-case: false
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      logic-delete-field: isDelete # 全局逻辑删除的实体字段名
+      logic-delete-value: 1 # 逻辑已删除值（默认为 1）
+      logic-not-delete-value: 0 # 逻辑未删除值（默认为 0）
+
+chatgpt:
+  host: https://cfwus02.opapi.win/
+  keys:
+    - sk-Gq6SuuXG245c8e67299AT3BLbKFJ47e84E8415Ca4F9eb331
+
+security:
+  # 禁止泄露
+  jwtKey: winter!@#$%^&*()_+
+  # 一周
+  jwtExpired: 604800
+  whitelist:
+    - /user/login
+    - /user/wx/handshake
+    - /user/wx/loginInfo
+    - /user/wx/checkLogin/**
+    - /user/register
+    - /user/forget
+    - /public/**
+    - /swagger-ui/
+    - /swagger-resources/**
+    - /**/v2/api-docs
+    - /**/v3/api-docs
+    - /**/*.html
+    - /**/*.js
+    - /**/*.css
+    - /**/*.png
+    - /**/*.map
+    - /favicon.ico
+    - /error
