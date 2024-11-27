@@ -6,6 +6,7 @@ package com.winter.duo.common;
 public class R {
 
     /**
+     *
      * 成功
      *
      * @param data
