@@ -130,18 +130,6 @@ public class DiaryServiceImpl extends ServiceImpl<PostMapper, Diary> implements 
         // 2. 已登录，获取用户点赞、收藏状态
         LoginUser loginUser = userService.getLoginUser();
         if (loginUser != null) {
-            // 获取点赞
-            QueryWrapper<PostThumb> postThumbQueryWrapper = new QueryWrapper<>();
-            postThumbQueryWrapper.in("postId", postId);
-            postThumbQueryWrapper.eq("userId", loginUser.getUserId());
-            PostThumb postThumb = postThumbMapper.selectOne(postThumbQueryWrapper);
-            diaryVO.setHasThumb(postThumb != null);
-            // 获取收藏
-            QueryWrapper<PostFavour> postFavourQueryWrapper = new QueryWrapper<>();
-            postFavourQueryWrapper.in("postId", postId);
-            postFavourQueryWrapper.eq("userId", loginUser.getUserId());
-            PostFavour postFavour = postFavourMapper.selectOne(postFavourQueryWrapper);
-            diaryVO.setHasFavour(postFavour != null);
             // 获取首页评论
             List<Comment> comments = commentService.pageComment(postId, 1L, 5L).getRecords();
             diaryVO.setComments(comments);
@@ -150,9 +138,9 @@ public class DiaryServiceImpl extends ServiceImpl<PostMapper, Diary> implements 
     }
 
     @Override
-    public Page<DiaryVO> getDiaryVOPage(Page<Diary> postPage, HttpServletRequest request) {
-        List<Diary> diaryList = postPage.getRecords();
-        Page<DiaryVO> postVOPage = new Page<>(postPage.getCurrent(), postPage.getSize(), postPage.getTotal());
+    public Page<DiaryVO> getDiaryVOPage(Page<Diary> diaryPage, HttpServletRequest request) {
+        List<Diary> diaryList = diaryPage.getRecords();
+        Page<DiaryVO> postVOPage = new Page<>(diaryPage.getCurrent(), diaryPage.getSize(), diaryPage.getTotal());
         if (CollectionUtils.isEmpty(diaryList)) {
             return postVOPage;
         }
@@ -160,26 +148,7 @@ public class DiaryServiceImpl extends ServiceImpl<PostMapper, Diary> implements 
         Set<Long> userIdSet = diaryList.stream().map(Diary::getUserId).collect(Collectors.toSet());
         Map<Long, List<User>> userIdUserListMap = userService.listByIds(userIdSet).stream()
                 .collect(Collectors.groupingBy(User::getId));
-        // 2. 已登录，获取用户点赞、收藏状态
-        Map<Long, Boolean> postIdHasThumbMap = new HashMap<>();
-        Map<Long, Boolean> postIdHasFavourMap = new HashMap<>();
-        LoginUser loginUser = userService.getLoginUser();
-        if (loginUser != null) {
-            Set<Long> postIdSet = diaryList.stream().map(Diary::getId).collect(Collectors.toSet());
-            loginUser = userService.getLoginUser();
-            // 获取点赞
-            QueryWrapper<PostThumb> postThumbQueryWrapper = new QueryWrapper<>();
-            postThumbQueryWrapper.in("postId", postIdSet);
-            postThumbQueryWrapper.eq("userId", loginUser.getUserId());
-            List<PostThumb> postPostThumbList = postThumbMapper.selectList(postThumbQueryWrapper);
-            postPostThumbList.forEach(postPostThumb -> postIdHasThumbMap.put(postPostThumb.getPostId(), true));
-            // 获取收藏
-            QueryWrapper<PostFavour> postFavourQueryWrapper = new QueryWrapper<>();
-            postFavourQueryWrapper.in("postId", postIdSet);
-            postFavourQueryWrapper.eq("userId", loginUser.getUserId());
-            List<PostFavour> postFavourList = postFavourMapper.selectList(postFavourQueryWrapper);
-            postFavourList.forEach(postFavour -> postIdHasFavourMap.put(postFavour.getPostId(), true));
-        }
+
         // 填充信息
         List<DiaryVO> diaryVOList = diaryList.stream().map(post -> {
             DiaryVO diaryVO = DiaryVO.objToVo(post);
@@ -189,8 +158,6 @@ public class DiaryServiceImpl extends ServiceImpl<PostMapper, Diary> implements 
                 user = userIdUserListMap.get(userId).get(0);
             }
             diaryVO.setUser(userService.getUserVO(user));
-            diaryVO.setHasThumb(postIdHasThumbMap.getOrDefault(post.getId(), false));
-            diaryVO.setHasFavour(postIdHasFavourMap.getOrDefault(post.getId(), false));
             return diaryVO;
         }).collect(Collectors.toList());
         postVOPage.setRecords(diaryVOList);
