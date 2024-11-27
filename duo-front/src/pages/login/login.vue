@@ -44,9 +44,9 @@ const loginForm = reactive({
 });
 
 const handleLogin = async () => {
-  if (!loginForm.username || !loginForm.password) {
+  if (!loginForm.userAccount || !loginForm.userPassword) {
     uni.showToast({
-      title: "请填写完整信息",
+      title: "请输入用户名和密码",
       icon: "none",
     });
     return;
@@ -62,7 +62,7 @@ const handleLogin = async () => {
     });
     setTimeout(() => {
       uni.switchTab({
-        url: "/pages/index/index",
+        url: "/pages/HomePage",
       });
     }, 1500);
   } catch (error) {

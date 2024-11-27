@@ -39,7 +39,10 @@ const loadDiaryList = async () => {
     })
     diaryList.value = [...diaryList.value, ...res.data]
   } catch (error) {
-    uni.$u.toast('获取日记列表失败')
+    uni.showToast({
+      title: "获取日记列表失败",
+      icon: "error",
+    });
   }
 }
 

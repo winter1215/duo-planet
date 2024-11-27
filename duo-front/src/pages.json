@@ -1,9 +1,21 @@
 {
 	"pages": [
 		{
-			"path": "pages/login/login",
+			"path": "pages/HomePage",
 			"style": {
 				"navigationBarTitleText": "首页"
+			}
+		},
+		{
+			"path": "pages/login/login",
+			"style": {
+				"navigationBarTitleText": "登录"
+			}
+		},
+		{
+			"path": "pages/register/register",
+			"style": {
+				"navigationBarTitleText": "注册"
 			}
 		},
 		{
@@ -47,16 +59,10 @@
 		"borderStyle": "black",
 		"list": [
 			{
-				"pagePath": "pages/login/login",
-				"text": "首页",
-				"iconPath": "static/tabbar/home.png",
-				"selectedIconPath": "static/tabbar/home-active.png"
+				"pagePath": "pages/HomePage"
 			},
 			{
-				"pagePath": "pages/diary/diary",
-				"text": "日记",
-				"iconPath": "static/tabbar/diary.png",
-				"selectedIconPath": "static/tabbar/diary-active.png"
+				"pagePath": "pages/diary/diary"
 			}
 		]
 	}
