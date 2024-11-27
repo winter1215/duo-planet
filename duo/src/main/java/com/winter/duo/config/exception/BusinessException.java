@@ -1,10 +1,12 @@
 package com.winter.duo.config.exception;
 
 import com.winter.duo.common.ErrorCode;
+import lombok.Getter;
 
 /**
  * 自定义异常类
  */
+@Getter
 public class BusinessException extends RuntimeException {
 
     /**
@@ -27,7 +29,4 @@ public class BusinessException extends RuntimeException {
         this.code = errorCode.getCode();
     }
 
-    public int getCode() {
-        return code;
-    }
 }

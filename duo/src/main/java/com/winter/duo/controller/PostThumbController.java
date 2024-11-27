@@ -2,7 +2,7 @@ package com.winter.duo.controller;
 
 import com.winter.duo.common.BaseResponse;
 import com.winter.duo.common.ErrorCode;
-import com.winter.duo.common.ResultUtils;
+import com.winter.duo.common.R;
 import com.winter.duo.config.exception.BusinessException;
 import com.winter.duo.model.dto.postthumb.PostThumbAddRequest;
 import com.winter.duo.model.entity.LoginUser;
@@ -47,7 +47,7 @@ public class PostThumbController {
         final LoginUser loginUser = userService.getLoginUser();
         long postId = postThumbAddRequest.getPostId();
         int result = postThumbService.doPostThumb(postId, loginUser);
-        return ResultUtils.success(result);
+        return R.success(result);
     }
 
 }

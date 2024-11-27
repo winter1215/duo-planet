@@ -3,7 +3,7 @@ package com.winter.duo.controller;
 import cn.hutool.core.io.FileUtil;
 import com.winter.duo.common.BaseResponse;
 import com.winter.duo.common.ErrorCode;
-import com.winter.duo.common.ResultUtils;
+import com.winter.duo.common.R;
 import com.winter.duo.constant.FileConstant;
 import com.winter.duo.config.exception.BusinessException;
 import com.winter.duo.model.dto.file.UploadFileRequest;
@@ -62,7 +62,7 @@ public class FileController {
             multipartFile.transferTo(file);
 //            cosManager.putObject(filepath, file);
             // 返回可访问地址
-            return ResultUtils.success(FileConstant.COS_HOST + filepath);
+            return R.success(FileConstant.COS_HOST + filepath);
         } catch (Exception e) {
             log.error("file upload error, filepath = " + filepath, e);
             throw new BusinessException(ErrorCode.SYSTEM_ERROR, "上传失败");

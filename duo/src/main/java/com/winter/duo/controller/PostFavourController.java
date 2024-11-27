@@ -3,7 +3,7 @@ package com.winter.duo.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.winter.duo.common.BaseResponse;
 import com.winter.duo.common.ErrorCode;
-import com.winter.duo.common.ResultUtils;
+import com.winter.duo.common.R;
 import com.winter.duo.config.exception.BusinessException;
 import com.winter.duo.config.exception.ThrowUtils;
 import com.winter.duo.model.dto.diary.DiaryQueryRequest;
@@ -57,7 +57,7 @@ public class PostFavourController {
         final LoginUser loginUser = userService.getLoginUser();
         long postId = postFavourAddRequest.getPostId();
         int result = postFavourService.doPostFavour(postId, loginUser);
-        return ResultUtils.success(result);
+        return R.success(result);
     }
 
     /**
@@ -79,7 +79,7 @@ public class PostFavourController {
         ThrowUtils.throwIf(size > 20, ErrorCode.PARAMS_ERROR);
         Page<Diary> postPage = postFavourService.listFavourPostByPage(new Page<>(current, size),
                 diaryService.getQueryWrapper(diaryQueryRequest), loginUser.getUserId());
-        return ResultUtils.success(diaryService.getDiaryVOPage(postPage, request));
+        return R.success(diaryService.getDiaryVOPage(postPage, request));
     }
 
     /**
@@ -101,6 +101,6 @@ public class PostFavourController {
         ThrowUtils.throwIf(size > 20 || userId == null, ErrorCode.PARAMS_ERROR);
         Page<Diary> postPage = postFavourService.listFavourPostByPage(new Page<>(current, size),
                 diaryService.getQueryWrapper(postFavourQueryRequest.getDiaryQueryRequest()), userId);
-        return ResultUtils.success(diaryService.getDiaryVOPage(postPage, request));
+        return R.success(diaryService.getDiaryVOPage(postPage, request));
     }
 }

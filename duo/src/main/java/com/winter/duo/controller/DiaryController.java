@@ -6,7 +6,7 @@ import com.winter.duo.annotation.AuthCheck;
 import com.winter.duo.common.BaseResponse;
 import com.winter.duo.common.DeleteRequest;
 import com.winter.duo.common.ErrorCode;
-import com.winter.duo.common.ResultUtils;
+import com.winter.duo.common.R;
 import com.winter.duo.constant.UserConstant;
 import com.winter.duo.config.exception.BusinessException;
 import com.winter.duo.config.exception.ThrowUtils;
@@ -69,7 +69,7 @@ public class DiaryController {
         boolean result = diaryService.save(diary);
         ThrowUtils.throwIf(!result, ErrorCode.OPERATION_ERROR);
         long newDiaryId = diary.getId();
-        return ResultUtils.success(newDiaryId);
+        return R.success(newDiaryId);
     }
 
     /**
@@ -94,7 +94,7 @@ public class DiaryController {
             throw new BusinessException(ErrorCode.NO_AUTH_ERROR);
         }
         boolean b = diaryService.removeById(id);
-        return ResultUtils.success(b);
+        return R.success(b);
     }
 
     /**
@@ -122,7 +122,7 @@ public class DiaryController {
         Diary oldDiary = diaryService.getById(id);
         ThrowUtils.throwIf(oldDiary == null, ErrorCode.NOT_FOUND_ERROR);
         boolean result = diaryService.updateById(diary);
-        return ResultUtils.success(result);
+        return R.success(result);
     }
 
     /**
@@ -140,7 +140,7 @@ public class DiaryController {
         if (diary == null) {
             throw new BusinessException(ErrorCode.NOT_FOUND_ERROR);
         }
-        return ResultUtils.success(diaryService.getDiaryVO(diary, request));
+        return R.success(diaryService.getDiaryVO(diary, request));
     }
 
     /**
@@ -159,7 +159,7 @@ public class DiaryController {
         ThrowUtils.throwIf(size > 20, ErrorCode.PARAMS_ERROR);
         Page<Diary> diaryPage = diaryService.page(new Page<>(current, size),
                 diaryService.getQueryWrapper(diaryQueryRequest));
-        return ResultUtils.success(diaryService.getDiaryVOPage(diaryPage, request));
+        return R.success(diaryService.getDiaryVOPage(diaryPage, request));
     }
 
     /**
@@ -182,7 +182,7 @@ public class DiaryController {
         // 限制爬虫
         ThrowUtils.throwIf(size > 20, ErrorCode.PARAMS_ERROR);
         Page<Diary> diaryPage = diaryService.page(new Page<>(current, size), diaryService.getQueryWrapper(diaryQueryRequest));
-        return ResultUtils.success(diaryService.getDiaryVOPage(diaryPage, request));
+        return R.success(diaryService.getDiaryVOPage(diaryPage, request));
     }
 
     // endregion
@@ -201,7 +201,7 @@ public class DiaryController {
         // 限制爬虫
         ThrowUtils.throwIf(size > 20, ErrorCode.PARAMS_ERROR);
         Page<Diary> diaryPage = null;
-        return ResultUtils.success(diaryService.getDiaryVOPage(diaryPage, request));
+        return R.success(diaryService.getDiaryVOPage(diaryPage, request));
     }
 
     /**
@@ -234,7 +234,7 @@ public class DiaryController {
             throw new BusinessException(ErrorCode.NO_AUTH_ERROR);
         }
         boolean result = diaryService.updateById(diary);
-        return ResultUtils.success(result);
+        return R.success(result);
     }
 
 }

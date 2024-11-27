@@ -5,7 +5,7 @@ import com.winter.duo.annotation.AuthCheck;
 import com.winter.duo.common.BaseResponse;
 import com.winter.duo.common.DeleteRequest;
 import com.winter.duo.common.ErrorCode;
-import com.winter.duo.common.ResultUtils;
+import com.winter.duo.common.R;
 import com.winter.duo.constant.UserConstant;
 import com.winter.duo.config.exception.BusinessException;
 import com.winter.duo.config.exception.ThrowUtils;
@@ -60,7 +60,7 @@ public class UserController {
             return null;
         }
         long result = userService.userRegister(userAccount, userPassword, checkPassword);
-        return ResultUtils.success(result);
+        return R.success(result);
     }
 
     /**
@@ -81,7 +81,7 @@ public class UserController {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
         LoginUserVO loginUserVO = userService.userLogin(userAccount, userPassword, request);
-        return ResultUtils.success(loginUserVO);
+        return R.success(loginUserVO);
     }
 
     /**
@@ -101,7 +101,7 @@ public class UserController {
         BeanUtils.copyProperties(userAddRequest, user);
         boolean result = userService.save(user);
         ThrowUtils.throwIf(!result, ErrorCode.OPERATION_ERROR);
-        return ResultUtils.success(user.getId());
+        return R.success(user.getId());
     }
 
     /**
@@ -118,7 +118,7 @@ public class UserController {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
         boolean b = userService.removeById(deleteRequest.getId());
-        return ResultUtils.success(b);
+        return R.success(b);
     }
 
     /**
@@ -139,7 +139,7 @@ public class UserController {
         BeanUtils.copyProperties(userUpdateRequest, user);
         boolean result = userService.updateById(user);
         ThrowUtils.throwIf(!result, ErrorCode.OPERATION_ERROR);
-        return ResultUtils.success(true);
+        return R.success(true);
     }
 
     /**
@@ -157,7 +157,7 @@ public class UserController {
         }
         User user = userService.getById(id);
         ThrowUtils.throwIf(user == null, ErrorCode.NOT_FOUND_ERROR);
-        return ResultUtils.success(user);
+        return R.success(user);
     }
 
     /**
@@ -171,7 +171,7 @@ public class UserController {
     public BaseResponse<UserVO> getUserVOById(long id, HttpServletRequest request) {
         BaseResponse<User> response = getUserById(id, request);
         User user = response.getData();
-        return ResultUtils.success(userService.getUserVO(user));
+        return R.success(userService.getUserVO(user));
     }
 
     /**
@@ -189,7 +189,7 @@ public class UserController {
         long size = userQueryRequest.getPageSize();
         Page<User> userPage = userService.page(new Page<>(current, size),
                 userService.getQueryWrapper(userQueryRequest));
-        return ResultUtils.success(userPage);
+        return R.success(userPage);
     }
 
     /**
@@ -211,7 +211,7 @@ public class UserController {
         Page<UserVO> userVOPage = new Page<>(current, size, userPage.getTotal());
         List<UserVO> userVO = userService.getUserVO(userPage.getRecords());
         userVOPage.setRecords(userVO);
-        return ResultUtils.success(userVOPage);
+        return R.success(userVOPage);
     }
 
     /**
@@ -230,7 +230,7 @@ public class UserController {
         user.setId(loginUser.getUserId());
         boolean result = userService.updateById(user);
         ThrowUtils.throwIf(!result, ErrorCode.OPERATION_ERROR);
-        return ResultUtils.success(true);
+        return R.success(true);
     }
 
     /**
@@ -256,11 +256,11 @@ public class UserController {
 
     @GetMapping("/wx/loginInfo")
     public BaseResponse<WxLoginInfoVo> getWxLoginInfo() {
-        return ResultUtils.success(userService.getWxLoginInfo());
+        return R.success(userService.getWxLoginInfo());
     }
 
     @GetMapping("/wx/checkLogin/{ticket}")
     public BaseResponse<LoginUserVO> checkWxLogin(@PathVariable String ticket) {
-        return ResultUtils.success(userService.checkWxLogin(ticket));
+        return R.success(userService.checkWxLogin(ticket));
     }
 }

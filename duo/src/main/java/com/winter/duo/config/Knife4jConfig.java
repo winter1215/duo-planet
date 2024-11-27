@@ -19,14 +19,14 @@ public class Knife4jConfig {
     public Docket defaultApi2() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(new ApiInfoBuilder()
-                        .title("模板接口文档")
-                        .description("贵宾")
+                        .title("DUODUO 接口文档")
+                        .description("DUODUO")
                         .version("1.0.1")
                         .build())
                 .select()
                 // 指定 Controller 扫描包路径
                 // todo: 包名
-                .apis(RequestHandlerSelectors.basePackage("com.winter.dignitary.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.winter.duo.controller"))
                 .paths(PathSelectors.any())
                 .build();
     }
