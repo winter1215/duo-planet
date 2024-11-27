@@ -1,21 +1,27 @@
 {
 	"pages": [
 		{
-			"path": "pages/index/index",
-			"style": {
-				"navigationBarTitleText": "uni-app"
-			}
-		},
-		{
 			"path": "pages/login/login",
 			"style": {
-				"navigationBarTitleText": "登录"
+				"navigationBarTitleText": "首页"
 			}
 		},
 		{
-			"path": "pages/register/register",
+			"path": "pages/diary/diary",
 			"style": {
-				"navigationBarTitleText": "注册"
+				"navigationBarTitleText": "日记"
+			}
+		},
+		{
+			"path": "pages/diary/publish",
+			"style": {
+				"navigationBarTitleText": "发布日记"
+			}
+		},
+		{
+			"path": "pages/diary/detail",
+			"style": {
+				"navigationBarTitleText": "日记详情"
 			}
 		}
 	],
@@ -33,5 +39,25 @@
 			"^up-(.*)": "uview-plus/components/u-$1/u-$1.vue",
 			"^u-([^-].*)": "uview-plus/components/u-$1/u-$1.vue"
 		}
+	},
+	"tabBar": {
+		"color": "#909399",
+		"selectedColor": "#5098FF",
+		"backgroundColor": "#FFFFFF",
+		"borderStyle": "black",
+		"list": [
+			{
+				"pagePath": "pages/login/login",
+				"text": "首页",
+				"iconPath": "static/tabbar/home.png",
+				"selectedIconPath": "static/tabbar/home-active.png"
+			},
+			{
+				"pagePath": "pages/diary/diary",
+				"text": "日记",
+				"iconPath": "static/tabbar/diary.png",
+				"selectedIconPath": "static/tabbar/diary-active.png"
+			}
+		]
 	}
 }
