@@ -22,26 +22,10 @@ public class DiaryVO implements Serializable {
      * id
      */
     private Long id;
-
-    /**
-     * 标题
-     */
-    private String title;
-
     /**
      * 内容
      */
     private String content;
-
-    /**
-     * 点赞数
-     */
-    private Integer thumbNum;
-
-    /**
-     * 收藏数
-     */
-    private Integer favourNum;
 
     /**
      * 创建用户 id
@@ -72,16 +56,6 @@ public class DiaryVO implements Serializable {
      * 创建人信息
      */
     private UserVO user;
-
-    /**
-     * 是否已点赞
-     */
-    private Boolean hasThumb;
-
-    /**
-     * 是否已收藏
-     */
-    private Boolean hasFavour;
 
     /**
      * 包装类转对象
