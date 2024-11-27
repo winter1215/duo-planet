@@ -4,7 +4,7 @@
       <view class="title">注册账号</view>
       <view class="form-item">
         <up-input
-          v-model="registerForm.username"
+          v-model="registerForm.userAccount"
           placeholder="请输入用户名"
           prefixIcon="account"
           border="none"
@@ -12,8 +12,9 @@
       </view>
       <view class="form-item">
         <up-input
-          v-model="registerForm.password"
+          v-model="registerForm.userPassword"
           type="password"
+          :password-icon="true"
           placeholder="请输入密码"
           prefixIcon="lock"
           border="none"
@@ -21,15 +22,18 @@
       </view>
       <view class="form-item">
         <up-input
-          v-model="registerForm.confirmPassword"
+          v-model="registerForm.checkPassword"
           type="password"
+          :password-icon="true"
           placeholder="请确认密码"
           prefixIcon="lock"
           border="none"
         />
       </view>
       <view class="form-item">
-        <up-button type="primary" @click="handleRegister" :loading="loading">注册</up-button>
+        <up-button type="primary" @click="handleRegister" :loading="loading"
+          >注册</up-button
+        >
       </view>
       <view class="actions">
         <text @click="goToLogin">已有账号？立即登录</text>
@@ -39,58 +43,63 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
-import request from '@/utils/request'
+import { ref, reactive } from "vue";
+import request from "@/utils/request";
 
-const loading = ref(false)
+const loading = ref(false);
 const registerForm = reactive({
-  username: '',
-  password: '',
-  confirmPassword: ''
-})
+  userAccount: "",
+  userPassword: "",
+  checkPassword: "",
+});
 
 const handleRegister = async () => {
-  if (!registerForm.username || !registerForm.password || !registerForm.confirmPassword) {
+  if (
+    !registerForm.userAccount ||
+    !registerForm.userPassword ||
+    !registerForm.checkPassword
+  ) {
     uni.showToast({
-      title: '请填写完整信息',
-      icon: 'none'
-    })
-    return
+      title: "请填写完整信息",
+      icon: "none",
+    });
+    return;
   }
 
-  if (registerForm.password !== registerForm.confirmPassword) {
+  if (registerForm.userPassword !== registerForm.checkPassword) {
     uni.showToast({
-      title: '两次输入的密码不一致',
-      icon: 'none'
-    })
-    return
+      title: "两次输入的密码不一致",
+      icon: "none",
+    });
+    return;
   }
 
-  loading.value = true
+  loading.value = true;
   try {
-    await request.post('/api/register', {
-      username: registerForm.username,
-      password: registerForm.password
-    })
+    await request.post("/api/user/register", {
+      userAccount: registerForm.userAccount,
+      userPassword: registerForm.userPassword,
+      checkPassword: registerForm.checkPassword,
+    });
     uni.showToast({
-      title: '注册成功',
-      icon: 'success'
-    })
+      title: "注册成功",
+      icon: "success",
+    });
     setTimeout(() => {
-      uni.navigateBack()
-    }, 1500)
+      uni.navigateBack();
+    }, 1500);
   } catch (error) {
-    console.error(error)
+    console.error(error);
   } finally {
-    loading.value = false
+    loading.value = false;
   }
-}
+};
 
 const goToLogin = () => {
   uni.navigateTo({
-    url: '/pages/login/login'
-  })
-}
+    url: "/pages/login/login",
+  });
+};
 </script>
 
 <style lang="scss" scoped>
@@ -133,4 +142,4 @@ const goToLogin = () => {
     }
   }
 }
-</style> 
+</style>

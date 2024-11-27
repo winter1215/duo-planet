@@ -6,7 +6,7 @@
       </view>
       <view class="form-item">
         <u-input
-          v-model="loginForm.username"
+          v-model="loginForm.userAccount"
           placeholder="请输入用户名"
           prefixIcon="account"
           border="none"
@@ -14,7 +14,7 @@
       </view>
       <view class="form-item">
         <u-input
-          v-model="loginForm.password"
+          v-model="loginForm.userPassword"
           type="password"
           placeholder="请输入密码"
           prefixIcon="lock"
@@ -22,7 +22,9 @@
         />
       </view>
       <view class="form-item">
-        <u-button type="primary" @click="handleLogin" :loading="loading">登录</u-button>
+        <u-button type="primary" @click="handleLogin" :loading="loading"
+          >登录</u-button
+        >
       </view>
       <view class="actions">
         <text @click="goToRegister">还没有账号？立即注册</text>
@@ -32,49 +34,49 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
-import request from '@/utils/request'
+import { ref, reactive } from "vue";
+import request from "@/utils/request";
 
-const loading = ref(false)
+const loading = ref(false);
 const loginForm = reactive({
-  username: '',
-  password: ''
-})
+  userAccount: "",
+  userPassword: "",
+});
 
 const handleLogin = async () => {
   if (!loginForm.username || !loginForm.password) {
     uni.showToast({
-      title: '请填写完整信息',
-      icon: 'none'
-    })
-    return
+      title: "请填写完整信息",
+      icon: "none",
+    });
+    return;
   }
 
-  loading.value = true
+  loading.value = true;
   try {
-    const res = await request.post('/api/login', loginForm)
-    uni.setStorageSync('token', res.token)
+    const res = await request.post("/api/user/login", loginForm);
+    uni.setStorageSync("token", res.token);
     uni.showToast({
-      title: '登录成功',
-      icon: 'success'
-    })
+      title: "登录成功",
+      icon: "success",
+    });
     setTimeout(() => {
       uni.switchTab({
-        url: '/pages/index/index'
-      })
-    }, 1500)
+        url: "/pages/index/index",
+      });
+    }, 1500);
   } catch (error) {
-    console.error(error)
+    console.error(error);
   } finally {
-    loading.value = false
+    loading.value = false;
   }
-}
+};
 
 const goToRegister = () => {
   uni.navigateTo({
-    url: '/pages/register/register'
-  })
-}
+    url: "/pages/register/register",
+  });
+};
 </script>
 
 <style lang="scss" scoped>
@@ -96,7 +98,7 @@ const goToRegister = () => {
     .logo {
       text-align: center;
       margin-bottom: 60rpx;
-      
+
       image {
         width: 180rpx;
         height: 180rpx;
@@ -119,4 +121,4 @@ const goToRegister = () => {
     }
   }
 }
-</style> 
+</style>
