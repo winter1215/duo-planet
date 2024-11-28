@@ -10,7 +10,7 @@
         />
       </up-form-item>
 
-      <up-form-item label="标签">
+      <!-- <up-form-item label="标签">
         <up-input
           v-model="formData.tag"
           placeholder="输入标签后点击添加"
@@ -26,7 +26,7 @@
             >
           </template>
         </up-input>
-      </up-form-item>
+      </up-form-item> -->
 
       <view class="tags-container" v-if="formData.tagList.length">
         <up-tag
