@@ -126,7 +126,7 @@ const submitDiary = async () => {
       visiable: formData.value.visiable,
     };
 
-    await request.post("/api/diary", submitData);
+    await request.post("/api/diary/add", submitData);
 
     uni.showToast({
       title: "发布成功",
@@ -164,3 +164,4 @@ const submitDiary = async () => {
     padding: 0 20rpx;
   }
 }
+</style>

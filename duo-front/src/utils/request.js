@@ -15,7 +15,8 @@ service.interceptors.request.use(
     // 从本地存储获取token
     const token = uni.getStorageSync("token");
     if (token) {
-      config.headers["token"] = `${token}`;
+      // config.headers["token"] = `${token}`;
+      config.headers["token"] = `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoidXNlciIsImNyZWF0ZVRpbWUiOjE3MzI3NzI0NTEsInVzZXJJZCI6Mn0.gSbxzGgb60zK_T_UW4m-lH6SMj48Nzmqm5FxMzWdZK8`;
     }
     return config;
   },

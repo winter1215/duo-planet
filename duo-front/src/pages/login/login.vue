@@ -34,16 +34,19 @@
 </template>
 
 <script setup>
-import { ref, reactive } from "vue";
+import { ref } from "vue";
+import { useStore } from "vuex";
 import request from "@/utils/request";
 
+const store = useStore();
 const loading = ref(false);
-const loginForm = reactive({
-  userAccount: "",
-  userPassword: "",
-});
 
 const handleLogin = async () => {
+  const loginForm = {
+    userAccount: store.state.loginForm.userAccount,
+    userPassword: store.state.loginForm.userPassword,
+  };
+
   if (!loginForm.userAccount || !loginForm.userPassword) {
     uni.showToast({
       title: "请输入用户名和密码",
@@ -55,7 +58,7 @@ const handleLogin = async () => {
   loading.value = true;
   try {
     const res = await request.post("/api/user/login", loginForm);
-    uni.setStorageSync("token", res.token);
+    store.commit('setToken', res.token);
     uni.showToast({
       title: "登录成功",
       icon: "success",

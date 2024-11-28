@@ -35,6 +35,12 @@
 			"style": {
 				"navigationBarTitleText": "日记详情"
 			}
+		},
+		{
+			"path": "pages/profile/profile",
+			"style": {
+				"navigationBarTitleText": "个人中心"
+			}
 		}
 	],
 	"globalStyle": {
@@ -67,6 +73,12 @@
 				"pagePath": "pages/diary/diary",
 				"iconPath": "static/tabbar/diary.png",
 				"selectedIconPath": "static/tabbar/diary-active.png"
+			},
+			{
+				"pagePath": "pages/profile/profile",
+				"text": "我的",
+				"iconPath": "static/tabbar/profile.png",
+				"selectedIconPath": "static/tabbar/profile-active.png"
 			}
 		]
 	}
