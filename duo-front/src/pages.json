@@ -59,10 +59,14 @@
 		"borderStyle": "black",
 		"list": [
 			{
-				"pagePath": "pages/HomePage"
+				"pagePath": "pages/HomePage",
+				"iconPath": "static/tabbar/home.png",
+				"selectedIconPath": "static/tabbar/diary-active.png"
 			},
 			{
-				"pagePath": "pages/diary/diary"
+				"pagePath": "pages/diary/diary",
+				"iconPath": "static/tabbar/diary.png",
+				"selectedIconPath": "static/tabbar/diary-active.png"
 			}
 		]
 	}

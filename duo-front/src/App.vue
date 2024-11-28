@@ -4,7 +4,7 @@
       <router-view></router-view>
     </view>
     
-    <up-tabbar
+    <!-- <up-tabbar
       :value="current"
       :fixed="true"
       :border="true"
@@ -15,7 +15,7 @@
       <up-tabbar-item text="放映厅" icon="photo" ></up-tabbar-item>
       <up-tabbar-item text="直播" icon="play-right" ></up-tabbar-item>
       <up-tabbar-item text="我的" icon="account" ></up-tabbar-item>
-  </up-tabbar>
+  </up-tabbar> -->
   </view>
 </template>
 
