@@ -10,7 +10,7 @@
         />
       </up-form-item>
 
-      <up-form-item label="标签">
+      <!-- <up-form-item label="标签">
         <up-input
           v-model="formData.tag"
           placeholder="输入标签后点击添加"
@@ -26,7 +26,7 @@
             >
           </template>
         </up-input>
-      </up-form-item>
+      </up-form-item> -->
 
       <view class="tags-container" v-if="formData.tagList.length">
         <up-tag
@@ -126,7 +126,7 @@ const submitDiary = async () => {
       visiable: formData.value.visiable,
     };
 
-    await request.post("/api/diary", submitData);
+    await request.post("/api/diary/add", submitData);
 
     uni.showToast({
       title: "发布成功",
@@ -164,3 +164,4 @@ const submitDiary = async () => {
     padding: 0 20rpx;
   }
 }
+</style>

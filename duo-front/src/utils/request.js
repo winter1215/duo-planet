@@ -1,52 +1,65 @@
-import axios from "axios";
+const baseURL = "http://127.0.0.1:8080";
 
-// 创建 axios 实例
-const service = axios.create({
-  baseURL: "http://127.0.0.1:8080", // 设置你的API基础URL
-  timeout: 15000,
-  headers: {
-    "Content-Type": "application/json",
-  },
-});
+const request = {
+  request(options = {}) {
+    // 拼接完整请求地址
+    options.url = baseURL + options.url;
 
-// 请求拦截器
-service.interceptors.request.use(
-  (config) => {
-    // 从本地存储获取token
+    // 获取本地存储的token
     const token = uni.getStorageSync("token");
     if (token) {
-      config.headers["token"] = `${token}`;
+      options.header = {
+        ...options.header,
+        token: token,
+      };
     }
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
-  }
-);
 
-// 响应拦截器
-service.interceptors.response.use(
-  (response) => {
-    const res = response.data;
-    // 这里可以根据后端的响应结构进行相应的处理
-    if (res.code === 0) {
-      return res.data;
-    } else {
-      // 使用 uni.showToast 替代 uview-plus 的 showToast
-      uni.showToast({
-        title: res.message || "请求失败",
-        icon: "none",
+    // 默认header
+    options.header = {
+      "Content-Type": "application/json",
+      ...options.header,
+    };
+
+    return new Promise((resolve, reject) => {
+      uni.request({
+        ...options,
+        success: (res) => {
+          if (res.data.code === 0) {
+            resolve(res.data.data);
+          } else {
+            uni.showToast({
+              title: res.data.message || "请求失败",
+              icon: "none",
+            });
+            reject(res.data);
+          }
+        },
+        fail: (err) => {
+          uni.showToast({
+            title: "网络错误",
+            icon: "none",
+          });
+          reject(err);
+        },
       });
-      return Promise.reject(res);
-    }
-  },
-  (error) => {
-    uni.showToast({
-      title: error.message || "网络错误",
-      icon: "none",
     });
-    return Promise.reject(error);
-  }
-);
+  },
 
-export default service;
+  get(url, data = {}) {
+    return this.request({
+      url,
+      method: "GET",
+      data,
+    });
+  },
+
+  post(url, data = {}) {
+    return this.request({
+      url,
+      method: "POST",
+      data,
+    });
+  },
+};
+
+export default request;
