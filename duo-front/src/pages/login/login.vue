@@ -57,7 +57,7 @@ const handleLogin = async () => {
 
   loading.value = true;
   try {
-    const res = await request.post("/api/user/login", loginForm);
+    const res = await request.post("/user/login", loginForm);
     store.commit('setToken', res.token);
     uni.showToast({
       title: "登录成功",

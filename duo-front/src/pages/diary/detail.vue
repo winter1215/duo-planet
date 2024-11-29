@@ -4,13 +4,13 @@
     <view class="diary-info">
       <view class="diary-time">{{ formatTime(diaryDetail.createTime) }}</view>
       <view class="diary-tags">
-        <u-tag 
+        <!-- <u-tag 
           v-for="tag in diaryDetail.tagList" 
           :key="tag" 
           :text="tag" 
           type="primary" 
           size="mini" 
-        />
+        /> -->
       </view>
     </view>
   </view>
@@ -19,14 +19,16 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { formatDate } from '@/utils/date'
+import request from "@/utils/request";
+
 
 const diaryDetail = ref({})
 
 const getDiaryDetail = async (id) => {
   try {
     // 这里替换为实际的API调用
-    const res = await uni.$u.http.get(`/api/diary/detail/${id}`)
-    diaryDetail.value = res.data
+    const res = await request.get(`/diary/get/vo`, {id})
+    diaryDetail.value = res
   } catch (error) {
     uni.$u.toast('获取日记详情失败')
   }

@@ -41,11 +41,11 @@ const pageSize = ref(10);
 
 const loadDiaryList = async () => {
   try {
-    const res = await request.get("/api/diary/list", {
+    const res = await request.post("/diary/my/list/page/vo", {
       page: page.value,
       pageSize: pageSize.value,
     });
-    diaryList.value = [...diaryList.value, ...res];
+    diaryList.value = [...diaryList.value, ...res.records];
   } catch (error) {
     uni.showToast({
       title: "获取日记列表失败",

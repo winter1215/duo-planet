@@ -126,7 +126,7 @@ const submitDiary = async () => {
       visiable: formData.value.visiable,
     };
 
-    await request.post("/api/diary/add", submitData);
+    await request.post("/diary/add", submitData);
 
     uni.showToast({
       title: "发布成功",
