@@ -4,7 +4,11 @@ import com.winter.duo.config.security.SecurityConfiguration;
 import com.winter.duo.config.interceptor.TokenHandlerInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -21,22 +25,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
     private final SecurityConfiguration securityConfiguration;
 
     /**
-    * 跨域配置
-    */
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        // 覆盖所有请求
-        registry.addMapping("/**")
-                // 允许发送 Cookie
-//                .allowCredentials(true)
-                // 放行哪些域名（必须用 patterns，否则 * 会和 allowCredentials 冲突）
-                .allowedOriginPatterns("*")
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                .allowedHeaders("*")
-                .exposedHeaders("*");
-    }
-
-    /**
     * 拦截器配置
     */
     @Override
@@ -45,4 +33,26 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 // 不包括 context-path
                 .excludePathPatterns(securityConfiguration.getWhiteList());
     }
+
+    @Bean
+    public CorsFilter corsFilter() {
+        //1. 添加 CORS配置信息
+        CorsConfiguration config = new CorsConfiguration();
+        //放行哪些原始域
+        config.addAllowedOrigin("*");
+        //是否发送 Cookie
+//        config.setAllowCredentials(true);
+        //放行哪些请求方式
+        config.addAllowedMethod("*");
+        //放行哪些原始请求头部信息
+        config.addAllowedHeader("*");
+        //暴露哪些头部信息
+        config.addExposedHeader("*");
+        //2. 添加映射路径
+        UrlBasedCorsConfigurationSource corsConfigurationSource = new UrlBasedCorsConfigurationSource();
+        corsConfigurationSource.registerCorsConfiguration("/**",config);
+        //3. 返回新的CorsFilter
+        return new CorsFilter(corsConfigurationSource);
+    }
+
 }

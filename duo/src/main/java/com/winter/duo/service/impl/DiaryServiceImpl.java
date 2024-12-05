@@ -40,22 +40,11 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 public class DiaryServiceImpl extends ServiceImpl<PostMapper, Diary> implements DiaryService {
-
-
     private final static Gson GSON = new Gson();
-
     @Resource
     private UserService userService;
-
-    @Resource
-    private PostThumbMapper postThumbMapper;
-
     @Resource
     private CommentService commentService;
-
-    @Resource
-    private PostFavourMapper postFavourMapper;
-
     @Override
     public void validDiary(Diary diary, boolean add) {
         if (diary == null) {
@@ -129,11 +118,11 @@ public class DiaryServiceImpl extends ServiceImpl<PostMapper, Diary> implements 
         diaryVO.setUser(userVO);
         // 2. 已登录，获取用户点赞、收藏状态
         LoginUser loginUser = userService.getLoginUser();
-        if (loginUser != null) {
-            // 获取首页评论
-            List<Comment> comments = commentService.pageComment(postId, 1L, 5L).getRecords();
-            diaryVO.setComments(comments);
-        }
+//        if (loginUser != null) {
+//            // 获取首页评论
+//            List<Comment> comments = commentService.pageComment(postId, 1L, 5L).getRecords();
+//            diaryVO.setComments(comments);
+//        }
         return diaryVO;
     }
 
