@@ -41,6 +41,18 @@
 			"style": {
 				"navigationBarTitleText": "个人中心"
 			}
+		},
+		{
+			"path": "pages/todo/todo",
+			"style": {
+				"navigationBarTitleText": "待办事项"
+			}
+		},
+		{
+			"path": "pages/lottery/lottery",
+			"style": {
+				"navigationBarTitleText": "幸运抽奖"
+			}
 		}
 	],
 	"globalStyle": {
