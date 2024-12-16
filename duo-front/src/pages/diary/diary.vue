@@ -38,6 +38,8 @@ import request from "@/utils/request";
 const diaryList = ref([]);
 const page = ref(1);
 const pageSize = ref(10);
+const hasMore = ref(true);
+const total = ref(0);
 
 const loadDiaryList = async () => {
   try {
@@ -45,7 +47,15 @@ const loadDiaryList = async () => {
       page: page.value,
       pageSize: pageSize.value,
     });
-    diaryList.value = [...diaryList.value, ...res.records];
+
+    total.value = res.total;
+    hasMore.value = diaryList.value.length < total.value;
+
+    if (page.value === 1) {
+      diaryList.value = res.records || [];
+    } else if (res.records && res.records.length > 0) {
+      diaryList.value = [...diaryList.value, ...res.records];
+    }
   } catch (error) {
     uni.showToast({
       title: "获取日记列表失败",
@@ -55,6 +65,19 @@ const loadDiaryList = async () => {
 };
 
 const loadMore = () => {
+  if (!hasMore.value) {
+    uni.showToast({
+      title: "没有更多数据了",
+      icon: "none",
+    });
+    return;
+  }
+
+  if (diaryList.value.length >= total.value) {
+    hasMore.value = false;
+    return;
+  }
+
   page.value++;
   loadDiaryList();
 };
