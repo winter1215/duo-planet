@@ -44,7 +44,7 @@ const total = ref(0);
 const loadDiaryList = async () => {
   try {
     const res = await request.post("/diary/my/list/page/vo", {
-      page: page.value,
+      current: page.value,
       pageSize: pageSize.value,
     });
 
@@ -64,7 +64,22 @@ const loadDiaryList = async () => {
   }
 };
 
-const loadMore = () => {
+const loadMore = async () => {
+  try {
+    const res = await request.post("/diary/my/list/page/vo", {
+      current: page.value,
+      pageSize: pageSize.value,
+    });
+
+    total.value = res.total;
+    hasMore.value = diaryList.value.length < total.value;
+  } catch (error) {
+    uni.showToast({
+      title: "获取日记列表失败",
+      icon: "none",
+    });
+  }
+
   if (!hasMore.value) {
     uni.showToast({
       title: "没有更多数据了",
@@ -74,6 +89,7 @@ const loadMore = () => {
   }
 
   if (diaryList.value.length >= total.value) {
+    console.log(diaryList.value.length);
     hasMore.value = false;
     return;
   }

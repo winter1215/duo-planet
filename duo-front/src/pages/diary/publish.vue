@@ -134,7 +134,9 @@ const submitDiary = async () => {
     });
 
     setTimeout(() => {
-      uni.navigateBack();
+      uni.switchTab({
+        url: "/pages/diary/diary",
+      });
     }, 1500);
   } catch (error) {
     console.error("发布日记失败:", error);
